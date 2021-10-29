@@ -18,11 +18,26 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    const addservices = client.db("dreamtours").collection("addservices");
+    const servicesadd = client.db("dreamtours").collection("addservices");
 
-    app.get("/", (req, res) => {
-      res.send("server is ok");
+    app.get("/showallservices", async (req, res) => {
+      const cursor = servicesadd.find({});
+      const result = await cursor.toArray();
+      res.send(result);
     });
+
+    app.post("/serviceadd", async (req, res) => {
+      const data = req.body;
+      const result = await servicesadd.insertOne(data);
+      res.json(result);
+    });
+
+    // app.delete("/deletevoluneerlist/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: ObjectId(id) };
+    //   const result = await registervolunteer.deleteOne(query);
+    //   res.json(result);
+    // });
   } finally {
   }
 }
