@@ -21,7 +21,7 @@ async function run() {
     const addservices = client.db("dreamtours").collection("addservices");
 
     app.get("/", (req, res) => {
-      res.send("server is running");
+      res.send("server is ok");
     });
   } finally {
   }
