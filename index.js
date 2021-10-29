@@ -19,6 +19,7 @@ async function run() {
   try {
     await client.connect();
     const servicesadd = client.db("dreamtours").collection("addservices");
+    // https://salty-cove-54306.herokuapp.com/showallservices
 
     app.get("/showallservices", async (req, res) => {
       const cursor = servicesadd.find({});
