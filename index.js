@@ -53,6 +53,20 @@ async function run() {
       const result = await bookstours.deleteOne(query);
       res.json(result);
     });
+
+    app.put("/statusupdate/:id", async (req, res) => {
+      const Id = req.params.id;
+      const AllData = req.body;
+      const filter = { _id: ObjectId(Id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          status: AllData.status,
+        },
+      };
+      const result = await bookstours.updateOne(filter, updateDoc, options);
+      res.json(result);
+    });
   } finally {
   }
 }
