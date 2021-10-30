@@ -19,8 +19,10 @@ async function run() {
   try {
     await client.connect();
     const servicesadd = client.db("dreamtours").collection("addservices");
+    const bookstours = client.db("dreamtours").collection("bookstours");
     // https://salty-cove-54306.herokuapp.com/showallservices
 
+    // showallservices
     app.get("/showallservices", async (req, res) => {
       const cursor = servicesadd.find({});
       const result = await cursor.toArray();
@@ -33,12 +35,24 @@ async function run() {
       res.json(result);
     });
 
-    // app.delete("/deletevoluneerlist/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: ObjectId(id) };
-    //   const result = await registervolunteer.deleteOne(query);
-    //   res.json(result);
-    // });
+    // booktours
+    app.get("/booktourslist", async (req, res) => {
+      const cursor = bookstours.find({});
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.post("/booktours", async (req, res) => {
+      const data = req.body;
+      const result = await bookstours.insertOne(data);
+      res.json(result);
+    });
+    app.delete("/delettable/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await bookstours.deleteOne(query);
+      res.json(result);
+    });
   } finally {
   }
 }
